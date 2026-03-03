@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indy Design Thinking Quest</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ SCREENS ══ -->
+
+<!-- TITLE SCREEN -->
+<div id="screen-title" class="screen active">
+  <div class="stars" id="stars"></div>
+  <div class="title-content">
+    <div class="title-logo">🔭</div>
+    <h1 class="title-text">INDY<span class="highlight">QUEST</span></h1>
+    <p class="subtitle">Design Thinking Adventure</p>
+    <div class="stage-badges">
+      <span class="badge">🤝 Empathize</span>
+      <span class="badge">🎯 Define</span>
+      <span class="badge">💡 Ideate</span>
+      <span class="badge">🛠 Prototype</span>
+      <span class="badge">🧪 Test</span>
+    </div>
+    <button class="btn btn-primary pulse" onclick="goToCharacter()">START QUEST</button>
+    <div class="sound-toggle-wrap">
+      <button class="btn-icon" id="btn-sound" onclick="toggleSound()" title="Toggle Sound">🔊</button>
+      <span>Sound ON</span>
+    </div>
+  </div>
+</div>
+
+<!-- CHARACTER SELECT -->
+<div id="screen-character" class="screen">
+  <div class="screen-header">
+    <h2>Choose Your Design Thinker</h2>
+    <p>Each hero brings a unique superpower to your quest!</p>
+  </div>
+  <div class="character-grid">
+    <div class="character-card" onclick="selectCharacter(this,'Nova','🚀','Rapid Prototyper','You move fast and test often—fail early, learn faster!')">
+      <div class="char-avatar">🚀</div>
+      <div class="char-name">Nova</div>
+      <div class="char-power">Rapid Prototyper</div>
+      <div class="char-desc">Builds mockups at the speed of light</div>
+    </div>
+    <div class="character-card" onclick="selectCharacter(this,'Echo','🎧','Empathy Master','You listen deeply and understand people like no one else!')">
+      <div class="char-avatar">🎧</div>
+      <div class="char-name">Echo</div>
+      <div class="char-power">Empathy Master</div>
+      <div class="char-desc">Reads emotions and uncovers hidden needs</div>
+    </div>
+    <div class="character-card" onclick="selectCharacter(this,'Blaze','⚡','Idea Generator','Your brainstorms are legendary—quantity over quality, first!')">
+      <div class="char-avatar">⚡</div>
+      <div class="char-name">Blaze</div>
+      <div class="char-power">Idea Generator</div>
+      <div class="char-desc">Generates 100 ideas before breakfast</div>
+    </div>
+    <div class="character-card" onclick="selectCharacter(this,'Sage','🔬','Systems Thinker','You see connections others miss and define problems precisely!')">
+      <div class="char-avatar">🔬</div>
+      <div class="char-name">Sage</div>
+      <div class="char-power">Systems Thinker</div>
+      <div class="char-desc">Breaks down complex problems with ease</div>
+    </div>
+  </div>
+</div>
+
+<!-- HUD (visible during gameplay) -->
+<div id="hud" class="hud hidden">
+  <div class="hud-left">
+    <span id="hud-char">🚀 Nova</span>
+    <div class="xp-bar-wrap">
+      <div class="xp-bar" id="xp-bar"></div>
+    </div>
+    <span id="hud-xp">0 XP</span>
+  </div>
+  <div class="hud-center">
+    <div class="stage-tracker" id="stage-tracker"></div>
+  </div>
+  <div class="hud-right">
+    <span>⭐ <span id="hud-score">0</span></span>
+    <span>❤️ <span id="hud-lives">3</span></span>
+    <button class="btn-icon" id="btn-sound-hud" onclick="toggleSound()" title="Toggle Sound">🔊</button>
+  </div>
+</div>
+
+<!-- STAGE INTRO -->
+<div id="screen-stage-intro" class="screen">
+  <div class="stage-intro-content">
+    <div class="stage-icon" id="intro-icon">🤝</div>
+    <div class="stage-number" id="intro-stage-num">Stage 1 of 5</div>
+    <h2 id="intro-stage-name">Empathize</h2>
+    <p id="intro-stage-desc">Walk in someone else's shoes to truly understand their needs.</p>
+    <div class="intro-tip" id="intro-tip"></div>
+    <button class="btn btn-primary" onclick="startStage()">LET'S GO! ▶</button>
+  </div>
+</div>
+
+<!-- QUESTION SCREEN -->
+<div id="screen-question" class="screen">
+  <div class="question-wrap">
+    <div class="question-meta">
+      <span class="q-stage-tag" id="q-stage-tag">🤝 Empathize</span>
+      <span class="q-num" id="q-num">Q 1 / 4</span>
+    </div>
+    <div class="question-box">
+      <p class="scenario-label" id="scenario-label"></p>
+      <h3 id="question-text">Question text here</h3>
+    </div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback-banner hidden" id="feedback-banner">
+      <span id="feedback-icon">✅</span>
+      <span id="feedback-text"></span>
+    </div>
+  </div>
+</div>
+
+<!-- MINI-GAME: SORT CHALLENGE -->
+<div id="screen-sort" class="screen">
+  <div class="sort-wrap">
+    <div class="question-meta">
+      <span class="q-stage-tag" id="sort-stage-tag">💡 Ideate</span>
+      <span>CHALLENGE</span>
+    </div>
+    <h3 id="sort-title">Sort these ideas!</h3>
+    <p id="sort-instruction">Drag or click ideas into the correct category.</p>
+    <div class="sort-grid">
+      <div class="sort-column" id="sort-col-a">
+        <div class="sort-col-header" id="sort-col-a-label">Category A</div>
+        <div class="sort-drop-zone" id="drop-a" ondragover="event.preventDefault()" ondrop="onDrop(event,'a')"></div>
+      </div>
+      <div class="sort-items-pool" id="sort-pool"></div>
+      <div class="sort-column" id="sort-col-b">
+        <div class="sort-col-header" id="sort-col-b-label">Category B</div>
+        <div class="sort-drop-zone" id="drop-b" ondragover="event.preventDefault()" ondrop="onDrop(event,'b')"></div>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="sort-submit" onclick="checkSort()">CHECK ANSWERS</button>
+    <div class="feedback-banner hidden" id="sort-feedback">
+      <span id="sort-feedback-icon">✅</span>
+      <span id="sort-feedback-text"></span>
+    </div>
+  </div>
+</div>
+
+<!-- STAGE COMPLETE -->
+<div id="screen-stage-complete" class="screen">
+  <div class="stage-complete-content">
+    <div class="badge-earned" id="badge-earned">🏅</div>
+    <h2>Stage Complete!</h2>
+    <p id="stage-complete-msg">You've mastered Empathize!</p>
+    <div class="stars-earned" id="stars-earned"></div>
+    <div class="xp-gained" id="xp-gained">+150 XP</div>
+    <div class="insight-box" id="insight-box"></div>
+    <button class="btn btn-primary" onclick="nextStage()">CONTINUE →</button>
+  </div>
+</div>
+
+<!-- GAME OVER -->
+<div id="screen-gameover" class="screen">
+  <div class="gameover-content">
+    <div class="gameover-icon">💔</div>
+    <h2>Quest Paused!</h2>
+    <p>Don't give up—design thinkers learn from every attempt!</p>
+    <button class="btn btn-primary" onclick="restartGame()">TRY AGAIN 🔄</button>
+    <button class="btn btn-secondary" onclick="goToTitle()">Main Menu</button>
+  </div>
+</div>
+
+<!-- VICTORY SCREEN -->
+<div id="screen-victory" class="screen">
+  <div class="stars" id="victory-stars"></div>
+  <div class="victory-content">
+    <div class="trophy">🏆</div>
+    <h1>QUEST COMPLETE!</h1>
+    <p id="victory-char-name">Nova</p>
+    <p class="victory-subtitle">You've mastered all 5 stages of Design Thinking!</p>
+    <div class="final-score-wrap">
+      <div class="final-score-item">
+        <span class="fs-num" id="final-score">0</span>
+        <span class="fs-label">Total Score</span>
+      </div>
+      <div class="final-score-item">
+        <span class="fs-num" id="final-xp">0</span>
+        <span class="fs-label">XP Earned</span>
+      </div>
+      <div class="final-score-item">
+        <span class="fs-num" id="final-badge-count">5</span>
+        <span class="fs-label">Badges</span>
+      </div>
+    </div>
+    <div class="badges-collected" id="badges-collected"></div>
+    <div class="certificate">
+      <p>🎓 <strong id="cert-name">Nova</strong> is now a certified Design Thinker!</p>
+    </div>
+    <button class="btn btn-primary" onclick="restartGame()">PLAY AGAIN</button>
+    <button class="btn btn-secondary" onclick="goToTitle()">Main Menu</button>
+  </div>
+</div>
+
+<!-- FLOATING TOAST -->
+<div id="toast" class="toast hidden"></div>
+
+<!-- CONFETTI CANVAS -->
+<canvas id="confetti-canvas"></canvas>
+
+<script src="game.js"></script>
+</body>
+</html>
