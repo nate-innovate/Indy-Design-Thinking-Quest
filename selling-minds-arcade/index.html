@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Selling Minds Arcade</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Public+Sans:wght@400;600;800&display=swap">
+<style>
+/* Layout: one 760px play column; every ad is a printed poster slapped on the table with a hard ink shadow, matching the unit deck */
+:root{
+  --paper:#F6F1E7; --card:#FFFDF8; --ink:#1B1F2A; --ink-2:#4F5565; --shadow:#1B1F2A;
+  --red:#C2321F; --on-red:#FFF8EC; --gold:#E8B23A; --blue:#2F5D8A;
+  --good:#24724A; --good-bg:#DDF0E3; --bad:#B42B1A; --bad-bg:#F9DFD9;
+  --c-belong:#E8B23A; --c-trust:#5E8FC4; --c-logic:#4FA673; --c-emotion:#E06A55; --c-attract:#A57BC4; --c-words:#9A917F; --c-vocab:#1B1F2A;
+  --display:'Oswald','Arial Narrow',Arial,sans-serif;
+  --body:'Public Sans',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#13161D; --card:#1E232D; --ink:#F2EDE3; --ink-2:#B1B7C3; --shadow:#3B4252;
+  --red:#F0604F; --on-red:#1B1F2A; --gold:#F2C45A; --blue:#8DB8E8;
+  --good:#5CC88A; --good-bg:#17311F; --bad:#FF8A78; --bad-bg:#3B1E1A;
+  --c-belong:#F2C45A; --c-trust:#7FAEE0; --c-logic:#6CC48E; --c-emotion:#F08A76; --c-attract:#C49BE0; --c-words:#B8AF9C; --c-vocab:#F2EDE3;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#13161D; --card:#1E232D; --ink:#F2EDE3; --ink-2:#B1B7C3; --shadow:#3B4252;
+  --red:#F0604F; --on-red:#1B1F2A; --gold:#F2C45A; --blue:#8DB8E8;
+  --good:#5CC88A; --good-bg:#17311F; --bad:#FF8A78; --bad-bg:#3B1E1A;
+  --c-belong:#F2C45A; --c-trust:#7FAEE0; --c-logic:#6CC48E; --c-emotion:#F08A76; --c-attract:#C49BE0; --c-words:#B8AF9C; --c-vocab:#F2EDE3;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+.wrap{max-width:760px;margin:0 auto;padding-block:18px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+button{font:inherit;color:inherit}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+h1,h2,h3,p{margin:0}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:14px;border-bottom:3px solid var(--ink)}
+.logo{background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.04em;text-transform:uppercase}
+.logo .mark{background:var(--red);color:var(--on-red);padding:1px 8px}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-family:var(--display);font-size:15px;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--ink);padding:3px 10px;background:var(--card);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill.hot{background:var(--gold);color:#1B1F2A;border-color:#1B1F2A}
+.bump{animation:bump .35s}
+@keyframes bump{40%{transform:scale(1.18)}}
+
+/* home */
+.hero{display:flex;flex-direction:column;gap:10px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,10vw,80px);line-height:.92;text-transform:uppercase;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{color:var(--ink-2);font-size:18px}
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.mode{text-align:left;background:var(--card);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--shadow);padding:18px 18px 20px;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:transform .12s,box-shadow .12s;min-width:0}
+.mode:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--shadow)}
+.mode:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--shadow)}
+.mode .k{font-family:var(--display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+.mode h2{font-family:var(--display);font-weight:700;font-size:32px;line-height:1;text-transform:uppercase}
+.mode p{color:var(--ink-2)}
+.mode.feature{grid-column:1/-1;background:var(--ink);color:var(--paper);flex-direction:row;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.mode.feature .k{color:var(--gold)}
+.mode.feature p{color:var(--paper);opacity:.8}
+.mode.feature .best{font-family:var(--display);font-size:44px;line-height:1;font-variant-numeric:tabular-nums;color:var(--gold)}
+.mode.feature .best small{display:block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);opacity:.75}
+
+.section-h{font-family:var(--display);font-size:22px;text-transform:uppercase;letter-spacing:.04em;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.section-h span{font-family:var(--body);font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink-2)}
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:8px}
+.badge{border:2px solid var(--ink);border-top:7px solid var(--cl);background:var(--card);padding:8px 10px 10px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0}
+.badge b{font-size:14px;line-height:1.15}
+.badge.master{background:var(--paper);box-shadow:3px 3px 0 var(--cl)}
+.badge .done{font-family:var(--display);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.pips{display:flex;gap:4px}
+.pip{width:12px;height:12px;border:2px solid var(--ink);border-radius:50%}
+.pip.on{background:var(--cl)}
+.stds{border:2px dashed var(--ink-2);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.stds ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.stds li{display:flex;gap:10px;align-items:baseline}
+.stds code{font-family:var(--display);font-size:14px;letter-spacing:.04em;background:var(--ink);color:var(--paper);padding:1px 7px;white-space:nowrap}
+
+/* play */
+.playhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mode-name{font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.06em}
+.std{font-family:var(--display);font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--ink);padding:1px 7px;color:var(--ink-2)}
+.progress{flex:1;min-width:120px;height:12px;border:2px solid var(--ink);background:var(--card)}
+.progress i{display:block;height:100%;background:var(--red);transition:width .3s}
+.count{font-family:var(--display);font-variant-numeric:tabular-nums}
+.timer{font-family:var(--display);font-size:30px;line-height:1;font-variant-numeric:tabular-nums;min-width:56px;text-align:center;border:3px solid var(--ink);padding:4px 8px;background:var(--card)}
+.timer.low{background:var(--red);color:var(--on-red)}
+.spacer{flex:1}
+.quit{background:none;border:0;text-decoration:underline;cursor:pointer;color:var(--ink-2);padding:4px}
+.prompt{font-family:var(--display);font-weight:700;font-size:28px;line-height:1.05;text-transform:uppercase}
+
+.aud{display:flex;gap:10px;align-items:baseline;font-weight:600;flex-wrap:wrap}
+.aud span,.ad .pic span{font-family:var(--display);font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
+.aud span{background:var(--gold);color:#1B1F2A;padding:1px 7px}
+.ad,.quote{border:3px solid var(--ink);box-shadow:8px 8px 0 var(--shadow);padding:20px 22px 24px;display:flex;flex-direction:column;gap:14px;transform:rotate(-.6deg);animation:slap .32s cubic-bezier(.2,.9,.3,1.3)}
+.ad{background:var(--ad-bg);color:var(--ad-fg)}
+.quote{background:var(--card);color:var(--ink);flex-direction:row;align-items:center;justify-content:space-between;gap:12px}
+@keyframes slap{from{transform:rotate(-5deg) scale(.9);opacity:.3}}
+.ad-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{font-family:var(--display);font-size:14px;letter-spacing:.2em;text-transform:uppercase}
+.slogan{font-family:var(--display);font-weight:700;font-size:clamp(28px,6.4vw,46px);line-height:1.06;text-wrap:balance;min-width:0}
+.ad .pic{font-size:15px;border-top:2px dashed currentColor;padding-top:10px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.blank{display:inline-block;min-width:3.2em;border-bottom:5px solid var(--red);color:var(--red);text-align:center}
+.say{flex:none;width:42px;height:42px;border-radius:50%;border:2px solid currentColor;background:transparent;cursor:pointer;display:grid;place-items:center}
+
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.choices.long{grid-template-columns:1fr}
+.choice{text-align:left;font-weight:700;font-size:18px;line-height:1.25;background:var(--card);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--shadow);padding:13px 14px;cursor:pointer;display:flex;gap:12px;align-items:center;min-height:62px;min-width:0;transition:transform .1s,box-shadow .1s}
+.choice:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--shadow)}
+.choice:active:not(:disabled){transform:translate(3px,3px);box-shadow:1px 1px 0 var(--shadow)}
+.choice .n{flex:none;font-family:var(--display);font-size:14px;width:28px;height:28px;border:2px solid currentColor;display:grid;place-items:center}
+.choice:disabled{cursor:default}
+.choice.right{background:var(--good-bg);border-color:var(--good);box-shadow:4px 4px 0 var(--good)}
+.choice.wrong{background:var(--bad-bg);border-color:var(--bad);box-shadow:4px 4px 0 var(--bad);animation:shake .35s}
+.choice.dim{opacity:.45}
+.choice .mark{margin-left:auto;font-family:var(--display);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+.tokens{display:flex;flex-wrap:wrap;gap:10px}
+.tok{font-family:var(--display);font-weight:700;font-size:clamp(24px,5.4vw,36px);line-height:1.1;background:var(--card);border:2px dashed var(--ink-2);padding:6px 14px;cursor:pointer}
+.tok:hover:not(:disabled){border-style:solid;border-color:var(--ink)}
+.tok:disabled{cursor:default}
+.tok.hit{background:var(--gold);color:#1B1F2A;border:2px solid #1B1F2A}
+.tok.miss{background:var(--bad-bg);border:2px solid var(--bad);animation:shake .35s}
+
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.linkbtn{background:var(--card);border:2px solid var(--ink);padding:6px 12px;cursor:pointer;font-weight:600}
+.hint{border-left:6px solid var(--gold);background:var(--card);padding:10px 14px}
+
+.fb{border:2px solid var(--ink);border-left:12px solid var(--good);background:var(--card);padding:16px 18px;display:flex;flex-direction:column;gap:8px;animation:rise .25s}
+.fb.no{border-left-color:var(--bad)}
+.fb .v{font-family:var(--display);font-weight:700;font-size:26px;text-transform:uppercase;line-height:1}
+.fb .ask{color:var(--ink-2)}
+@keyframes rise{from{transform:translateY(8px);opacity:.3}}
+.chip{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:15px;border:2px solid var(--ink);padding:3px 11px;background:var(--paper);cursor:default}
+button.chip{cursor:pointer}
+.chip::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--cl);border:1px solid var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font-family:var(--display);font-weight:500;font-size:20px;text-transform:uppercase;letter-spacing:.06em;background:var(--red);color:var(--on-red);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--shadow);padding:9px 22px;cursor:pointer;align-self:flex-start}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--shadow)}
+.btn.ghost{background:var(--card);color:var(--ink)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+
+/* end */
+.endcard{background:var(--card);border:3px solid var(--ink);box-shadow:8px 8px 0 var(--shadow);padding:24px;display:flex;flex-direction:column;gap:16px}
+.eyebrow{font-family:var(--display);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+.big{font-family:var(--display);font-weight:700;font-size:clamp(80px,22vw,140px);line-height:.85;font-variant-numeric:tabular-nums}
+.unit{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+
+/* flashcards */
+.seg{display:flex;border:2px solid var(--ink)}
+.seg button{background:var(--card);border:0;padding:5px 12px;cursor:pointer;font-weight:600}
+.seg button+button{border-left:2px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.flash{perspective:1200px}
+.flip{position:relative;height:300px;transform-style:preserve-3d;transition:transform .5s;cursor:pointer}
+.flip.on{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:3px solid var(--ink);box-shadow:8px 8px 0 var(--shadow);background:var(--card);padding:22px 24px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.front{border-top:14px solid var(--cl);justify-content:center;align-items:flex-start}
+.front .term{font-family:var(--display);font-weight:700;font-size:clamp(40px,10vw,68px);line-height:.95;text-transform:uppercase;text-wrap:balance}
+.front .tap{color:var(--ink-2);font-size:14px}
+.back{transform:rotateY(180deg);background:var(--paper);justify-content:center}
+.back .def{font-size:clamp(20px,4.6vw,26px);font-weight:800;line-height:1.2}
+.back .ex{font-family:var(--display);font-size:20px;border-left:5px solid var(--red);padding-left:12px}
+.back .es{color:var(--ink-2)}
+.back .es span{font-family:var(--display);font-size:12px;letter-spacing:.12em;text-transform:uppercase;border:2px solid var(--ink-2);padding:0 6px;margin-right:6px}
+.cardnav{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+.confetti{position:fixed;top:-10px;width:10px;height:16px;pointer-events:none;z-index:50;animation:fall 1.3s ease-in forwards}
+@keyframes fall{to{transform:translate(var(--dx),105vh) rotate(var(--r));opacity:.9}}
+
+@media (max-width:560px){
+  .modes,.choices{grid-template-columns:1fr}
+  .choice{min-height:54px;font-size:17px}
+  .prompt{font-size:24px}
+  .quote{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <button class="logo" data-act="home" aria-label="Arcade home"><span class="mark">Selling Minds</span> Arcade</button>
+    <div class="stats" id="stats" hidden>
+      <span class="pill" id="pScore">0 pts</span>
+      <span class="pill" id="pStreak">Streak 0</span>
+    </div>
+  </header>
+
+  <main id="home">
+    <div class="wrap" style="padding:0">
+      <section class="hero">
+        <h1>Spot the trick.<br><em>Beat the ad.</em></h1>
+        <p>Every ad is trying to sell you something. Name the technique.</p>
+      </section>
+
+      <section class="modes" aria-label="Game modes">
+        <button class="mode feature" data-act="go" data-to="lightning">
+          <span style="display:flex;flex-direction:column;gap:6px">
+            <span class="k">English 2 · AOR.5.3</span>
+            <h2>Lightning Round</h2>
+            <p>60 seconds. How many ads can you crack?</p>
+          </span>
+          <span class="best" id="bestL">0<small>your best</small></span>
+        </button>
+        <button class="mode" data-act="go" data-to="spot">
+          <span class="k">English 2 · AOR.5.3</span>
+          <h2>Spot It</h2>
+          <p>10 ads. Name the technique.</p>
+        </button>
+        <button class="mode" data-act="go" data-to="words">
+          <span class="k">English 2 · AOR.8.1</span>
+          <h2>Word Lab</h2>
+          <p>Connotation, hyperbole, weasel words.</p>
+        </button>
+        <button class="mode" data-act="go" data-to="critic">
+          <span class="k">English 2 · AOR.4.1 · 5.2 · 5.3</span>
+          <h2>Ad Critic</h2>
+          <p>Judge the evidence. Fix weak ads.</p>
+        </button>
+        <button class="mode" data-act="go" data-to="terms">
+          <span class="k">Key vocabulary</span>
+          <h2>Term Cards</h2>
+          <p>Flip, listen, review. With Español.</p>
+        </button>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:10px" aria-label="Technique mastery">
+        <h3 class="section-h">Technique board <span id="masterCount">0 of 19 mastered</span></h3>
+        <div class="board" id="board"></div>
+        <p style="color:var(--ink-2);font-size:14px">Name a technique correctly 3 times in Spot It or Lightning to master it. Tap any tile to study it.</p>
+      </section>
+
+      <section class="stds" aria-label="English 2 standards">
+        <h3 class="section-h" style="font-size:18px">English 2 skills you’re practicing</h3>
+        <ul>
+          <li><code>E2.AOR.5.3</code><span>Evaluate the reasoning, rhetoric, and validity of claims.</span></li>
+          <li><code>E2.AOR.4.1</code><span>Evaluate how well the rhetoric serves the author’s purpose.</span></li>
+          <li><code>E2.AOR.5.2</code><span>Explain how a text could be more effective.</span></li>
+          <li><code>E2.AOR.8.1</code><span>Interpret connotation and figurative language, like hyperbole.</span></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <main id="play" hidden style="display:flex;flex-direction:column;gap:20px"></main>
+  <main id="terms" hidden style="display:flex;flex-direction:column;gap:18px"></main>
+  <main id="end" hidden></main>
+</div>
+
+<script>
+/* ---------- data ---------- */
+const CL = {belong:"Belonging & status", trust:"Trust & identity", logic:"Logic or “logic”", emotion:"Emotion", attract:"Attraction & urgency", words:"Loaded words"};
+const T = {
+  bandwagon:{n:"Bandwagon",es:"Efecto de arrastre",c:"belong",ap:"pathos",d:"Everyone is doing it, so you should too.",h:"You’ll be left out.",q:"Does popular mean good for me?"},
+  snob:{n:"Snob appeal",es:"Atractivo esnob",c:"belong",ap:"pathos",d:"Only rich or special people use this.",h:"Buy it to feel elite.",q:"What am I really paying for?"},
+  avant:{n:"Avant-garde",es:"Vanguardia",c:"belong",ap:"pathos",d:"Be the first. This is the future.",h:"New means cool.",q:"Is new actually better?"},
+  testimonial:{n:"Testimonial",es:"Testimonio",c:"trust",ap:"ethos",d:"A famous person or expert says it’s good.",h:"Trust them, not yourself.",q:"Were they paid? Are they an expert on this?"},
+  plain:{n:"Plain folks",es:"Gente común",c:"trust",ap:"ethos",d:"Regular, hard-working people like you use this.",h:"We’re just like you.",q:"Does “like me” make it good?"},
+  transfer:{n:"Transfer",es:"Transferencia",c:"trust",ap:"pathos",d:"Links the product to a symbol people love.",h:"The good feeling moves to the product.",q:"What does the picture have to do with the product?"},
+  patriotism:{n:"Patriotism",es:"Patriotismo",c:"trust",ap:"pathos",d:"Buying it shows you love your country.",h:"Good citizens buy this.",q:"Does buying it really help my country?"},
+  facts:{n:"Facts & figures",es:"Datos y cifras",c:"logic",ap:"logos",d:"Numbers, tests, or studies prove the point.",h:"It’s science, so trust it.",q:"Who did the test? How many people?"},
+  magic:{n:"Magic ingredients",es:"Ingredientes mágicos",c:"logic",ap:"logos",d:"A special-sounding ingredient makes it work.",h:"Secret science you can’t check.",q:"What does that ingredient actually do?"},
+  unfinished:{n:"Unfinished comparison",es:"Comparación incompleta",c:"logic",ap:"logos",d:"Says “more” or “better” but never says than what.",h:"Sounds measured, proves nothing.",q:"More than what?"},
+  card:{n:"Card stacking",es:"Datos selectivos",c:"logic",ap:"logos",d:"Shows only the good facts. Hides the bad.",h:"Don’t read the fine print.",q:"What’s in the fine print?"},
+  fear:{n:"Fear",es:"Miedo",c:"emotion",ap:"pathos",d:"Shows a scary danger if you don’t act.",h:"Act now or suffer.",q:"How likely is this danger, really?"},
+  hidden:{n:"Hidden fears",es:"Miedos ocultos",c:"emotion",ap:"pathos",d:"Plays on a private worry, then sells the cure.",h:"Something is wrong with you.",q:"Did I worry about this before the ad?"},
+  anger:{n:"Anger / outrage",es:"Ira / indignación",c:"emotion",ap:"pathos",d:"Makes you angry so you click, share, or buy.",h:"Your anger is their profit.",q:"Who gains if I get angry?"},
+  humor:{n:"Wit & humor",es:"Ingenio y humor",c:"emotion",ap:"pathos",d:"Makes you laugh so you remember it.",h:"Laughing means liking.",q:"Does the joke tell me anything about the product?"},
+  attract:{n:"Sex appeal / attractiveness",es:"Atractivo físico",c:"attract",ap:"pathos",d:"Says the product will make you attractive or popular.",h:"Buy this and people will want you.",q:"Is the photo edited? Will it really change me?"},
+  scarcity:{n:"Scarcity / FOMO",es:"Escasez / miedo a perderse algo",c:"attract",ap:"pathos",d:"Limited time or stock. Decide fast.",h:"Don’t stop to think.",q:"Will it really be gone? Do I need it?"},
+  glitter:{n:"Glittering generalities",es:"Generalidades brillantes",c:"words",ap:"pathos",d:"Shiny words that sound good but prove nothing.",h:"Feel good. Don’t check.",q:"What does that word actually prove?"},
+  namecall:{n:"Name-calling",es:"Insultos / descalificación",c:"words",ap:"pathos",d:"Attacks a rival with negative labels.",h:"They’re bad, so we’re good.",q:"Is there proof, or only an insult?"}
+};
+const KEYS = Object.keys(T);
+
+const ADS = [
+  ["bandwagon","SnapCam","10 million teens already use it. Don’t get left behind."],
+  ["bandwagon","Kickz","Everyone at school is wearing them. Are you?"],
+  ["bandwagon","StreamBox","Join 50 million fans streaming tonight."],
+  ["snob","Velour Watches","Not for everyone."],
+  ["snob","Aurum Card","By invitation only."],
+  ["snob","Maison Lune","Luxury, for those who know.","A gold-trimmed hotel lobby"],
+  ["avant","X1 Headphones","The sound of 2030, available today."],
+  ["avant","Orbit Phone","Be the first to hold the future."],
+  ["avant","Glide Shoes","Next-gen cushioning nobody else has."],
+  ["testimonial","CleanHands","“I’m a nurse, and I only trust CleanHands.”"],
+  ["testimonial","Volt Sports Drink","Champions choose Volt.","A pro soccer star drinking Volt"],
+  ["testimonial","KidVita","“As a pediatrician, I give these to my own kids.” — Dr. Ruiz"],
+  ["plain","Ridge Trucks","Real farmers. Real families.","A dusty truck on a family farm"],
+  ["plain","Mama Rosa’s Sauce","Made in a small kitchen, just like yours."],
+  ["plain","Main Street Bank","We’re your neighbors, not a big-city bank."],
+  ["transfer","Pure Leaf Soap","Feel the morning.","Green leaves, a waterfall, and a sunrise"],
+  ["transfer","Harmony Coffee","Every family moment starts here.","A family laughing at breakfast"],
+  ["transfer","Summit Water","Taste the mountain.","A snowy mountain peak"],
+  ["patriotism","Liberty Motors","Built here. Proud like you.","A waving flag and fireworks"],
+  ["patriotism","Anthem Jeans","Made in the USA, for the USA."],
+  ["patriotism","Homeland Grill","Fire it up. It’s the American way.","A grill on a porch draped in red, white, and blue"],
+  ["facts","Grip Tires","Stopped 12 feet shorter in a test of 2,000 drivers."],
+  ["facts","PowerCell","Lasts 24 hours. Tested by an independent lab."],
+  ["facts","FiberCrunch","8 grams of fiber in every bowl."],
+  ["magic","SmoothSkin Lotion","Now with HydraLock-7 complex!"],
+  ["magic","ZapGel","Powered by micro-crystal technology."],
+  ["magic","Rise Shampoo","With our secret Keratin-Plus formula."],
+  ["unfinished","Zoom Detergent","40% more cleaning power!"],
+  ["unfinished","Crunchos","Now with 25% less fat!"],
+  ["unfinished","Flash Mascara","Lashes look 3x longer!"],
+  ["card","BrightSmile","Whitens up to 8 shades!*","Tiny print: *with 6 months of daily use"],
+  ["card","QuickCash Loans","Cash in 10 minutes!*","Tiny print: *39% interest rate"],
+  ["card","FitFree App","Free to download!*","Tiny print: *$12.99 a month after 3 days"],
+  ["fear","SafeHome","Is your home protected tonight?","A dark house, a shadow at the window"],
+  ["fear","Roadside Plus","Stuck on a dark road. Alone. Get covered."],
+  ["fear","Breathe Free (PSA)","One cloud. A lifetime of damage.","Smoke curling from a vape"],
+  ["hidden","FreshMint","Will they notice your breath?"],
+  ["hidden","DryGuard","Don’t let sweat stains ruin your first day."],
+  ["hidden","ClearSkin","Everyone sees your skin first."],
+  ["anger","FreshFacts Page","They’re lying about your food. Share before it’s deleted!"],
+  ["anger","SwitchMobile","Big Phone is ripping you off. Fight back. Switch today."],
+  ["anger","ValuMart","You pay MORE for LESS at their store. Are you mad yet?"],
+  ["humor","Paws Insurance","Cheaper than your cat’s therapy."],
+  ["humor","Snooze Mattress","Warning: may cause oversleeping."],
+  ["humor","Lazy Llama Delivery","We run, so you don’t have to.","A cartoon llama in running shoes"],
+  ["attract","Glow Body Spray","Turn every head in the room."],
+  ["attract","Edge Cologne","Irresistible.","A model with perfect, edited skin"],
+  ["attract","Shine Hair Gel","Look this good. Get noticed.","A crowd turning to stare at one person"],
+  ["scarcity","DropZone","Drop ends at midnight.","A countdown clock: 00:59:59"],
+  ["scarcity","GameVault","Only 3 left in stock! Order now."],
+  ["scarcity","Pumpkin Swirl","Limited edition. Once it’s gone, it’s gone."],
+  ["glitter","FreshLife Juice","Pure, natural, real goodness."],
+  ["glitter","Freedom Mobile","Freedom. Family. The future."],
+  ["glitter","Harvest Bar","Wholesome goodness you can feel."],
+  ["namecall","Nova Phone","Other phones? Slow, cheap, and boring."],
+  ["namecall","Burger Barn","Don’t settle for the sad, soggy burger next door."],
+  ["namecall","Peak Coffee","Their coffee tastes like dishwater."]
+];
+
+const WL = [
+  {t:"pick",f:"A ___ jacket from the 1990s.",o:["old","vintage","used"],a:1,w:"“Vintage” sounds special. “Old” and “used” sound worn out."},
+  {t:"pick",f:"A ___ price for every family.",o:["cheap","affordable","low-budget"],a:1,w:"“Affordable” sounds smart. “Cheap” sounds low quality."},
+  {t:"pick",f:"Our ___ phone fits in any pocket.",o:["tiny","compact","small"],a:1,w:"“Compact” sounds well designed."},
+  {t:"pick",f:"___ leather boots at half the price.",o:["Fake","Faux","Imitation"],a:1,w:"“Faux” sounds stylish. “Fake” sounds like a lie."},
+  {t:"pick",f:"A ___ SUV with room for everyone.",o:["bulky","huge","spacious"],a:2,w:"“Spacious” is the positive way to say big."},
+  {t:"pick",f:"A ___ car. Like new!",o:["used","pre-owned","second-hand"],a:1,w:"“Pre-owned” hides the word “used.”"},
+  {t:"pick",f:"Play with a ___ attitude.",o:["aggressive","bold","pushy"],a:1,w:"“Bold” sounds brave. The others sound mean."},
+  {t:"hyp",x:"The best pizza in the entire universe.",a:0,w:"No one tested every pizza in the universe."},
+  {t:"hyp",x:"This phone charges faster than lightning.",a:0,w:"Nothing charges faster than lightning."},
+  {t:"hyp",x:"So soft you’ll never leave your bed again.",a:0,w:"Extreme exaggeration for effect."},
+  {t:"hyp",x:"A million flavors in every bite.",a:0,w:"No bite has a million flavors."},
+  {t:"hyp",x:"Each bottle holds 20 ounces.",a:1,w:"A fact you can measure."},
+  {t:"hyp",x:"Free shipping on orders over $25.",a:1,w:"A real offer you can check."},
+  {t:"hyp",x:"Our backpack has four pockets.",a:1,w:"A fact you can count."},
+  {t:"tap",p:"Tap a weasel word",k:["Helps","fight","germs."],g:[0,1],w:"“Helps” and “fight” promise effort, not results."},
+  {t:"tap",p:"Tap the weasel word",k:["Kills","up to","99%","of","germs."],g:[1],w:"“Up to” means it could be much less."},
+  {t:"tap",p:"Tap the weasel word",k:["Virtually","no","sugar."],g:[0],w:"“Virtually” means there is some sugar."},
+  {t:"tap",p:"Tap a glittering word",k:["Pure,","natural","goodness","in","every","sip."],g:[0,1,2],w:"Shiny words that prove nothing."},
+  {t:"tap",p:"Tap the name-calling",k:["Their","phones","are","slow","and","sad."],g:[3,5],w:"Insults instead of proof."},
+  {t:"tap",p:"Tap the hyperbole",k:["The","comfiest","shoes","on the planet."],g:[3],w:"Nobody tested every shoe on the planet."},
+  {t:"tap",p:"Tap the unfinished comparison",k:["Now","with","more","flavor!"],g:[2],w:"More than what?"}
+];
+
+const SW = [
+  {b:"Tutor Club",s:"Tutoring is in Room 121.",au:"New students who feel nervous",o:["Make friends. Get help. Room 121, Tuesdays.","Tutoring is mandatory.","The best tutoring in the galaxy!"],a:0,w:"Belonging speaks to nervous new students. “Best in the galaxy” is empty hyperbole."},
+  {b:"Food Drive",s:"Bring cans.",au:"Busy families",o:["Canned food: 100% amazing.","Neighbors feeding neighbors. Drop cans at the front office.","Bring cans or you’re selfish."],a:1,w:"Plain folks builds trust. Name-calling pushes people away."},
+  {b:"Green Team",s:"Recycle.",au:"Teens who follow trends",o:["Recycling is a thing you can do.","Recycle now, with Eco-Max-9 power!","Join 200 students already on the Green Team."],a:2,w:"Bandwagon fits teens who follow the crowd."},
+  {b:"Corner Café",s:"We sell coffee.",au:"Students studying for exams",o:["Fuel for finals: 2-for-1 lattes this week only.","Coffee: pure, natural goodness.","Our coffee is better."],a:0,w:"A real deal plus urgency beats a vague or unfinished claim."},
+  {b:"Robotics Club",s:"Robotics meets Thursdays.",au:"Students who love new tech",o:["Robotics. Since 1999.","Build the future first. Robotics, Thursdays.","Robots: everyone’s doing it."],a:1,w:"Avant-garde fits students who love what’s next."}
+];
+
+const VOCAB = [
+  {k:"v-rhetoric",n:"Rhetoric",es:"Retórica",d:"Words and images used to persuade.",x:"Every ad in this arcade uses rhetoric."},
+  {k:"v-ethos",n:"Ethos",es:"Ethos (credibilidad)",d:"An appeal to trust and credibility.",x:"“I’m a nurse, and I only trust CleanHands.”"},
+  {k:"v-pathos",n:"Pathos",es:"Pathos (emoción)",d:"An appeal to emotion.",x:"“Will they notice your breath?”"},
+  {k:"v-logos",n:"Logos",es:"Logos (lógica)",d:"An appeal to logic, facts, and numbers.",x:"“Stopped 12 feet shorter in a test of 2,000 drivers.”"},
+  {k:"v-propaganda",n:"Propaganda",es:"Propaganda",d:"One-sided messages that shape what people believe or do.",x:"A wartime poster telling everyone to save food."},
+  {k:"v-audience",n:"Target audience",es:"Público objetivo",d:"The group an ad is made for.",x:"Sneaker ads target teens who play sports."},
+  {k:"v-connotation",n:"Connotation",es:"Connotación",d:"The feeling a word carries.",x:"“Vintage” feels special. “Old” feels worn out."},
+  {k:"v-denotation",n:"Denotation",es:"Denotación",d:"The dictionary meaning of a word.",x:"“Vintage” and “old” both mean made long ago."},
+  {k:"v-hyperbole",n:"Hyperbole",es:"Hipérbole",d:"Extreme exaggeration for effect.",x:"“The best pizza in the entire universe.”"},
+  {k:"v-weasel",n:"Weasel words",es:"Palabras ambiguas",d:"Words that make a claim weaker than it sounds.",x:"“Helps,” “up to,” “virtually”"},
+  {k:"v-cta",n:"Call to action",es:"Llamada a la acción",d:"Tells you what to do next.",x:"“Order now.” “Switch today.”"},
+  {k:"v-claim",n:"Claim",es:"Afirmación",d:"The main point an argument tries to prove.",x:"“Ads do more harm than good for teens.”"},
+  {k:"v-counter",n:"Counterclaim",es:"Contraargumento",d:"The other side’s argument.",x:"“Some say ads give useful information.”"}
+];
+
+const PAL = [["#C2321F","#FFF8EC"],["#1B1F2A","#F6F1E7"],["#E8B23A","#1B1F2A"],["#2F5D8A","#FFF8EC"],["#FFFDF8","#1B1F2A"],["#3E6B4F","#F6F1E7"],["#5E3A73","#FAF0FA"],["#F2D3C4","#1B1F2A"]];
+const MODES = {
+  spot:{n:"Spot It",std:"E2 · AOR.5.3"},
+  lightning:{n:"Lightning Round",std:"E2 · AOR.5.3"},
+  words:{n:"Word Lab",std:"E2 · AOR.8.1"},
+  critic:{n:"Ad Critic",std:"E2 · AOR.4.1 · 5.2 · 5.3"}
+};
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { for (let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const sample = (a,n) => shuffle(a.slice()).slice(0,n);
+const hash = s => { let h=0; for (const ch of s) h=(h*31+ch.charCodeAt(0))>>>0; return h; };
+const clv = k => `var(--c-${T[k].c})`;
+function load(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const canSay = (() => { try { return "speechSynthesis" in window && typeof SpeechSynthesisUtterance === "function"; } catch(e){ return false; } })();
+function say(text){ try{ const u=new SpeechSynthesisUtterance(text.replace(/[*“”]/g,"")); u.lang="en-US"; u.rate=.9; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+const SPK = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const sayBtn = t => canSay ? `<button class="say" data-act="say" data-text="${esc(t)}" aria-label="Listen">${SPK}</button>` : "";
+const reduced = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){ return false; } };
+
+let M = load("smArcadeMastery", {});
+let BEST = load("smArcadeBest", {});
+
+/* ---------- item builders ---------- */
+function techOpts(key, n){
+  const same = KEYS.filter(k => k!==key && T[k].c===T[key].c);
+  const other = KEYS.filter(k => k!==key && T[k].c!==T[key].c);
+  let o = (n>=4 && same.length) ? sample(same,1) : [];
+  o = o.concat(sample(other, n-1-o.length));
+  o.push(key);
+  return shuffle(o);
+}
+function adItem(ad, n, prompt){
+  const keys = techOpts(ad[0], n);
+  return {kind:"choice", show:{type:"ad",ad}, prompt, opts:keys.map(k=>T[k].n), a:keys.indexOf(ad[0]), tech:ad[0], fb:techFb(ad[0])};
+}
+function techFb(k){
+  return `<p><span class="chip" style="--cl:${clv(k)}">${esc(T[k].n)}</span></p><p><b>Hidden message:</b> ${esc(T[k].h)}</p><p class="ask"><b>Ask:</b> ${esc(T[k].q)}</p>`;
+}
+function spotItems(){
+  const used = new Set(), out = [];
+  for (const ad of shuffle(ADS.slice())){ if (!used.has(ad[0])){ used.add(ad[0]); out.push(adItem(ad,4,"Name the technique")); } if (out.length===10) break; }
+  return out;
+}
+const lightItem = () => adItem(ADS[Math.floor(Math.random()*ADS.length)], 3, "Name it fast");
+function wordItems(){
+  const pick = sample(WL.filter(x=>x.t==="pick"),4), hyp = sample(WL.filter(x=>x.t==="hyp"),3), tap = sample(WL.filter(x=>x.t==="tap"),3);
+  return shuffle([...pick,...hyp,...tap]).map(x => {
+    if (x.t==="pick") return {kind:"choice", show:{type:"frame",text:x.f}, prompt:"Which word sells it?", opts:x.o, a:x.a, fb:`<p>${esc(x.w)}</p>`, label:"Connotation"};
+    if (x.t==="hyp") return {kind:"choice", show:{type:"quote",text:x.x}, prompt:"Hyperbole or literal?", opts:["Hyperbole","Literal"], a:x.a, fb:`<p>${esc(x.w)}</p>`, label:"Hyperbole"};
+    return {kind:"tap", show:null, prompt:x.p, tokens:x.k, g:x.g, fb:`<p>${esc(x.w)}</p>`, label:"Loaded words"};
+  });
+}
+function criticItems(){
+  const out = [];
+  const apName = {ethos:"Ethos",pathos:"Pathos",logos:"Logos"};
+  const apLine = {ethos:"Ethos: it borrows trust.",pathos:"Pathos: it works on your feelings.",logos:"Logos: it uses facts or numbers."};
+  sample(ADS,2).forEach(ad => {
+    const ap = T[ad[0]].ap, weak = ["magic","unfinished","card"].includes(ad[0]);
+    out.push({kind:"choice", show:{type:"ad",ad}, prompt:"Which appeal?", opts:["Ethos","Pathos","Logos"], a:["ethos","pathos","logos"].indexOf(ap), tech:ad[0],
+      fb:`<p><span class="chip" style="--cl:${clv(ad[0])}">${esc(T[ad[0]].n)}</span></p><p>${apLine[ap]}${weak?" But the logic is weak.":""}</p>`});
+  });
+  sample(ADS,2).forEach(ad => {
+    const k = ad[0];
+    const others = sample(KEYS.filter(x => T[x].c!==T[k].c), 2);
+    const qs = shuffle([k,...others]);
+    out.push({kind:"choice", show:{type:"ad",ad}, prompt:"Best question to ask?", opts:qs.map(x=>T[x].q), a:qs.indexOf(k), tech:k, long:true,
+      fb:`<p><span class="chip" style="--cl:${clv(k)}">${esc(T[k].n)}</span></p><p>That question exposes the trick.</p>`});
+  });
+  const strong = ADS.filter(a => a[0]==="facts"), weakAds = ADS.filter(a => ["magic","unfinished","card","glitter"].includes(a[0]));
+  [sample(strong,1)[0], sample(weakAds,1)[0]].forEach(ad => {
+    const isStrong = ad[0]==="facts";
+    out.push({kind:"choice", show:{type:"ad",ad}, prompt:"Is the claim valid?", opts:["Real evidence","Weak or no evidence"], a:isStrong?0:1, tech:ad[0],
+      fb:`<p><span class="chip" style="--cl:${clv(ad[0])}">${esc(T[ad[0]].n)}</span></p><p>${isStrong?"It names a test and numbers. Still ask:":"Sounds smart, proves nothing. Ask:"} <b>${esc(T[ad[0]].q)}</b></p>`});
+  });
+  sample(SW,2).forEach(x => {
+    out.push({kind:"choice", show:{type:"ad", ad:[null,x.b,x.s,"Weak ad"], audience:x.au}, prompt:"Make it stronger", opts:x.o, a:x.a, long:true, fb:`<p>${esc(x.w)}</p>`, label:"Revise"});
+  });
+  return shuffle(out);
+}
+
+/* ---------- views ---------- */
+function show(id){ ["home","play","terms","end"].forEach(v => $(v).hidden = v!==id); $("stats").hidden = id!=="play"; window.scrollTo(0,0); }
+
+function renderHome(){
+  stopTimer();
+  const b = $("board");
+  let mastered = 0;
+  b.innerHTML = KEYS.map(k => {
+    const c = Math.min(M[k]||0, 3); if (c===3) mastered++;
+    return `<button class="badge${c===3?" master":""}" style="--cl:${clv(k)}" data-act="term" data-k="${k}"><b>${esc(T[k].n)}</b><span class="pips">${[0,1,2].map(i=>`<span class="pip${i<c?" on":""}"></span>`).join("")}</span>${c===3?'<span class="done">Mastered</span>':""}</button>`;
+  }).join("");
+  $("masterCount").textContent = `${mastered} of ${KEYS.length} mastered`;
+  $("bestL").firstChild.nodeValue = BEST.lightning || 0;
+  show("home");
+}
+
+let S = null;
+function start(mode){
+  stopTimer();
+  S = {mode, items: mode==="spot"?spotItems(): mode==="words"?wordItems(): mode==="critic"?criticItems(): [lightItem()],
+       i:0, score:0, streak:0, best:0, right:0, done:0, missed:[], answered:false, hint:false, t:60};
+  updateStats();
+  show("play");
+  renderQ();
+  if (mode==="lightning") startTimer();
+}
+
+function display(it){
+  const s = it.show; if (!s) return "";
+  if (s.type==="ad"){
+    const [, brand, slogan, pic] = s.ad, p = PAL[hash(brand)%PAL.length];
+    return `${s.audience?`<p class="aud"><span>Audience</span>${esc(s.audience)}</p>`:""}<div class="ad" style="--ad-bg:${p[0]};--ad-fg:${p[1]}"><div class="ad-top"><span class="brand">${esc(brand)}</span>${sayBtn(slogan)}</div><p class="slogan">${esc(slogan)}</p>${pic?`<p class="pic"><span>${s.ad[0]?"Picture":"Note"}</span>${esc(pic)}</p>`:""}</div>`;
+  }
+  if (s.type==="frame") return `<div class="quote"><p class="slogan">${esc(s.text).replace("___",'<span class="blank">?</span>')}</p>${sayBtn(s.text.replace("___","blank"))}</div>`;
+  return `<div class="quote"><p class="slogan">${esc(s.text)}</p>${sayBtn(s.text)}</div>`;
+}
+
+function renderQ(){
+  const it = S.items[S.i], m = MODES[S.mode];
+  S.answered = false; S.hint = false;
+  const head = S.mode==="lightning"
+    ? `<span class="timer${S.t<=10?" low":""}" id="timer" aria-live="off">${S.t}</span><span class="count">${S.right} spotted</span>`
+    : `<div class="progress" aria-hidden="true"><i style="width:${S.i/S.items.length*100}%"></i></div><span class="count">${S.i+1} / ${S.items.length}</span>`;
+  let body;
+  if (it.kind==="tap"){
+    body = `<div class="tokens">${it.tokens.map((w,i)=>`<button class="tok" data-act="tok" data-i="${i}">${esc(w)}</button>`).join("")}</div>`;
+  } else {
+    body = `<div class="choices${it.long?" long":""}">${it.opts.map((o,i)=>`<button class="choice" data-act="choice" data-i="${i}"><span class="n">${i+1}</span><span>${esc(o)}</span></button>`).join("")}</div>`;
+  }
+  const tools = S.mode==="spot" ? `<div class="tools"><button class="linkbtn" data-act="hint" id="hintBtn">Hint (half points)</button></div><p class="hint" id="hint" hidden></p>` : "";
+  $("play").innerHTML = `<div class="playhead"><span class="mode-name">${m.n}</span><span class="std">${m.std}</span>${head}<span class="spacer"></span><button class="quit" data-act="home">Quit</button></div>
+    <h2 class="prompt">${esc(it.prompt)}</h2>${display(it)}${body}${tools}<div id="fb" hidden></div>`;
+}
+
+function answer(i){
+  if (!S || S.answered) return;
+  const it = S.items[S.i];
+  S.answered = true; S.done++;
+  const ok = it.kind==="tap" ? it.g.includes(i) : i===it.a;
+  if (it.kind==="tap"){
+    document.querySelectorAll(".tok").forEach((b,j) => { b.disabled = true; if (it.g.includes(j)) b.classList.add("hit"); else if (j===i) b.classList.add("miss"); });
+  } else {
+    document.querySelectorAll(".choice").forEach((b,j) => {
+      b.disabled = true;
+      if (j===it.a){ b.classList.add("right"); b.insertAdjacentHTML("beforeend",'<span class="mark">Answer</span>'); }
+      else if (j===i){ b.classList.add("wrong"); b.insertAdjacentHTML("beforeend",'<span class="mark">Your pick</span>'); }
+      else b.classList.add("dim");
+    });
+  }
+  if (ok){
+    S.right++; S.streak++; S.best = Math.max(S.best, S.streak);
+    S.score += (S.hint?50:100) + Math.min(S.streak-1,5)*10;
+    if (it.tech && (S.mode==="spot"||S.mode==="lightning")){ M[it.tech] = (M[it.tech]||0)+1; save("smArcadeMastery", M); }
+    if ([3,5,10,15,20].includes(S.streak)) burst(S.streak>=10?60:30);
+  } else {
+    S.streak = 0;
+    if (it.tech) S.missed.push(it.tech);
+  }
+  updateStats(true);
+
+  if (S.mode==="lightning"){
+    setTimeout(() => { if (!S || S.mode!=="lightning" || S.t<=0) return; S.i++; S.items.push(lightItem()); renderQ(); }, ok?380:1100);
+    return;
+  }
+  const last = S.i===S.items.length-1;
+  const fb = $("fb");
+  fb.className = "fb" + (ok?"":" no");
+  fb.innerHTML = `<p class="v">${ok ? pick(["Nice catch!","You got it!","Sharp eyes!","Correct!"]) : pick(["Not quite.","Close one.","Tricky one."])}</p>${it.fb}<button class="btn" data-act="next" id="nextBtn">${last?"See results":"Next"}</button>`;
+  fb.hidden = false;
+  $("nextBtn").focus({preventScroll:true});
+  fb.scrollIntoView({block:"nearest", behavior: reduced()?"auto":"smooth"});
+}
+const pick = a => a[Math.floor(Math.random()*a.length)];
+
+function next(){ if (!S) return; S.i++; if (S.i>=S.items.length) end(); else { renderQ(); window.scrollTo(0,0); } }
+
+function useHint(){
+  if (!S || S.answered || S.hint) return;
+  const it = S.items[S.i];
+  S.hint = true;
+  const h = $("hint");
+  h.innerHTML = `<b>${esc(CL[T[it.tech].c])}.</b> Hidden message: “${esc(T[it.tech].h)}”`;
+  h.hidden = false;
+  $("hintBtn").disabled = true;
+}
+
+function updateStats(bump){
+  if (!S) return;
+  $("pScore").textContent = S.mode==="lightning" ? `${S.right} spotted` : `${S.score} pts`;
+  $("pStreak").textContent = `Streak ${S.streak}`;
+  $("pStreak").classList.toggle("hot", S.streak>=3);
+  if (bump){ const p=$("pScore"); p.classList.remove("bump"); void p.offsetWidth; p.classList.add("bump"); }
+}
+
+function startTimer(){
+  S.timer = setInterval(() => {
+    if (!S) return stopTimer();
+    S.t--;
+    const el = $("timer");
+    if (el){ el.textContent = S.t; el.classList.toggle("low", S.t<=10); }
+    if (S.t<=0){ stopTimer(); end(); }
+  }, 1000);
+}
+function stopTimer(){ if (S && S.timer){ clearInterval(S.timer); S.timer = null; } }
+
+function end(){
+  stopTimer();
+  const m = MODES[S.mode], light = S.mode==="lightning";
+  const total = light ? S.done : S.items.length;
+  const val = light ? S.right : S.score;
+  const prev = BEST[S.mode] || 0, isBest = val>prev && val>0;
+  if (isBest){ BEST[S.mode] = val; save("smArcadeBest", BEST); }
+  const miss = [...new Set(S.missed)];
+  const review = miss.length
+    ? `<div style="display:flex;flex-direction:column;gap:8px"><h3 class="section-h" style="font-size:18px">Review these</h3><div class="chips">${miss.map(k=>`<button class="chip" style="--cl:${clv(k)}" data-act="term" data-k="${k}">${esc(T[k].n)}</button>`).join("")}</div></div>`
+    : `<p><b>Clean round.</b> Nothing to review.</p>`;
+  $("end").innerHTML = `<div class="endcard">
+    <p class="eyebrow">${m.n} · ${m.std}</p>
+    <div><p class="big">${val}</p><p class="unit">${light?"ads spotted":"points"}</p></div>
+    <div class="row"><span class="pill">Correct ${S.right} / ${total}</span><span class="pill">Best streak ${S.best}</span>${isBest?'<span class="pill hot">New best!</span>':""}</div>
+    ${review}
+    <div class="row"><button class="btn" data-act="again">Play again</button><button class="btn ghost" data-act="home">Home</button></div>
+  </div>`;
+  show("end");
+  if (total && S.right/total>=.8) burst(70);
+}
+
+/* ---------- term cards ---------- */
+const F = {f:"all", i:0, flip:false, list:[]};
+function termList(f){
+  const tech = KEYS.map(k => ({k, n:T[k].n, es:T[k].es, d:T[k].d, h:T[k].h, x:ADS.find(a=>a[0]===k)[2], tag:CL[T[k].c], cl:clv(k)}));
+  const voc = VOCAB.map(v => ({...v, tag:"Key word", cl:"var(--c-vocab)"}));
+  return f==="tech" ? tech : f==="vocab" ? voc : tech.concat(voc);
+}
+function openTerms(key){
+  F.list = termList(key && !key.startsWith("v-") && F.f==="vocab" ? "all" : F.f);
+  if (key && !F.list.some(c=>c.k===key)){ F.f = "all"; F.list = termList("all"); }
+  F.i = key ? Math.max(0, F.list.findIndex(c => c.k===key)) : Math.min(F.i, F.list.length-1);
+  F.flip = false;
+  renderTerms();
+  show("terms");
+}
+function renderTerms(){
+  const c = F.list[F.i];
+  $("terms").innerHTML = `<div class="playhead"><span class="mode-name">Term Cards</span>
+      <div class="seg" role="group" aria-label="Which cards">${[["all","All"],["tech","Techniques"],["vocab","Key words"]].map(([v,l])=>`<button data-act="filter" data-f="${v}" aria-pressed="${F.f===v}">${l}</button>`).join("")}</div>
+      <span class="spacer"></span><button class="quit" data-act="home">Home</button></div>
+    <div class="flash"><div class="flip${F.flip?" on":""}" id="flip" data-act="flip" role="button" tabindex="0" aria-label="Flip card. ${esc(c.n)}">
+      <div class="face front" style="--cl:${c.cl}"><span class="chip" style="--cl:${c.cl}">${esc(c.tag)}</span><p class="term">${esc(c.n)}</p><p class="tap">Tap to flip</p></div>
+      <div class="face back"><p class="def">${esc(c.d)}</p>${c.h?`<p><b>Hidden message:</b> ${esc(c.h)}</p>`:""}<p class="ex">${esc(c.x)}</p><p class="es"><span>Español</span>${esc(c.es)}</p></div>
+    </div></div>
+    <div class="cardnav"><button class="btn ghost" data-act="prev" aria-label="Previous card">Prev</button><button class="btn" data-act="nextcard">Next</button>
+      <span class="count">${F.i+1} / ${F.list.length}</span><span class="spacer"></span>
+      ${canSay?`<button class="linkbtn" data-act="say" data-text="${esc(c.n)}">Listen</button>`:""}<button class="linkbtn" data-act="shuffle">Shuffle</button></div>`;
+}
+
+/* ---------- confetti ---------- */
+function burst(n){
+  if (reduced()) return;
+  const cols = ["#C2321F","#E8B23A","#2F5D8A","#4FA673","#A57BC4","#F6F1E7"];
+  for (let i=0;i<n;i++){
+    const d = document.createElement("i");
+    d.className = "confetti";
+    d.style.left = (10 + Math.random()*80) + "vw";
+    d.style.background = cols[i%cols.length];
+    d.style.setProperty("--dx", (Math.random()*240-120)+"px");
+    d.style.setProperty("--r", (Math.random()*720-360)+"deg");
+    d.style.animationDelay = (Math.random()*.25)+"s";
+    document.body.appendChild(d);
+    setTimeout(() => d.remove(), 1700);
+  }
+}
+
+/* ---------- events & routing ---------- */
+const PLAY = ["spot","lightning","words","critic"];
+function route(){
+  const h = location.hash.slice(1);
+  if (PLAY.includes(h)) start(h);
+  else if (h==="terms") openTerms(pendingTerm), pendingTerm = null;
+  else { S && stopTimer(); renderHome(); }
+}
+let pendingTerm = null;
+function go(h){ if (location.hash.slice(1)===h) route(); else location.hash = h; }
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const a = b.dataset.act;
+  if (a==="go") go(b.dataset.to);
+  else if (a==="home"){ stopTimer(); S = null; go(""); if (!location.hash) renderHome(); }
+  else if (a==="choice"||a==="tok") answer(+b.dataset.i);
+  else if (a==="next") next();
+  else if (a==="hint") useHint();
+  else if (a==="say") say(b.dataset.text);
+  else if (a==="again") start(S.mode);
+  else if (a==="term"){ pendingTerm = b.dataset.k; stopTimer(); if (location.hash.slice(1)==="terms") route(); else location.hash = "terms"; }
+  else if (a==="flip"){ F.flip = !F.flip; $("flip").classList.toggle("on", F.flip); }
+  else if (a==="prev"){ F.i = (F.i-1+F.list.length)%F.list.length; F.flip=false; renderTerms(); }
+  else if (a==="nextcard"){ F.i = (F.i+1)%F.list.length; F.flip=false; renderTerms(); }
+  else if (a==="shuffle"){ shuffle(F.list); F.i=0; F.flip=false; renderTerms(); }
+  else if (a==="filter"){ F.f = b.dataset.f; F.list = termList(F.f); F.i=0; F.flip=false; renderTerms(); }
+});
+
+document.addEventListener("keydown", e => {
+  if (e.metaKey||e.ctrlKey||e.altKey) return;
+  if (!$("play").hidden && S){
+    if (!S.answered && /^[1-4]$/.test(e.key)){
+      const it = S.items[S.i];
+      if (it.kind==="choice" && +e.key<=it.opts.length){ e.preventDefault(); answer(+e.key-1); }
+    } else if (S.answered && e.key==="Enter" && document.activeElement?.id!=="nextBtn" && S.mode!=="lightning"){ e.preventDefault(); next(); }
+  } else if (!$("terms").hidden){
+    if (e.key==="ArrowRight"){ F.i=(F.i+1)%F.list.length; F.flip=false; renderTerms(); }
+    else if (e.key==="ArrowLeft"){ F.i=(F.i-1+F.list.length)%F.list.length; F.flip=false; renderTerms(); }
+    else if ((e.key===" "||e.key==="Enter") && document.activeElement?.id==="flip"){ e.preventDefault(); F.flip=!F.flip; $("flip").classList.toggle("on",F.flip); }
+  }
+});
+
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
